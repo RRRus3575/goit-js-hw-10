@@ -14,29 +14,25 @@ input.addEventListener('input', debounce(searchCounrty, DEBOUNCE_DELAY));
 
 function searchCounrty(event) {
   const countryName = event.target.value.trim();
+  cleanHTML();
   if (countryName === '') {
-    cleanHTML();
     return;
   }
   console.log(countryName);
   fetchCountries(countryName)
     .then(data => {
       if (data.length > 10) {
-        cleanHTML();
         Notiflix.Notify.info(
           '"Too many matches found. Please enter a more specific name."'
         );
         return;
       } else if (data.length < 2) {
-        cleanHTML();
         addCountry(data);
       } else {
-        cleanHTML();
         addListCountry(data);
       }
     })
     .catch(err => {
-      cleanHTML();
       Notiflix.Notify.failure('Oops, there is no country with that name');
       console.log(err);
     });
