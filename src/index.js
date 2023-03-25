@@ -36,6 +36,7 @@ function searchCounrty(event) {
       }
     })
     .catch(err => {
+      cleanHTML();
       Notiflix.Notify.failure('Oops, there is no country with that name');
       console.log(err);
     });
