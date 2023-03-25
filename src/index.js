@@ -15,22 +15,23 @@ input.addEventListener('input', debounce(searchCounrty, DEBOUNCE_DELAY));
 function searchCounrty(event) {
   const countryName = event.target.value.trim();
   if (countryName === '') {
+    clearHTML();
     return;
   }
   console.log(countryName);
   fetchCountries(countryName)
     .then(data => {
       if (data.length > 10) {
+        cleanHTML();
         Notiflix.Notify.info(
           '"Too many matches found. Please enter a more specific name."'
         );
+        return;
       } else if (data.length < 2) {
-        countryList.innerHTML = '';
-        console.log('ура только одна', data);
+        cleanHTML();
         addCountry(data);
       } else {
-        console.log(data);
-        countryInfo.innerHTML = '';
+        cleanHTML();
         addListCountry(data);
       }
     })
@@ -43,10 +44,6 @@ function searchCounrty(event) {
 function languages(languages) {
   const langArray = Object.values(languages);
   return langArray.join(', ');
-  // for (const key in languages) {
-  //   console.log(key);
-  //   return languages[key];
-  // }
 }
 
 function addCountry(data) {
@@ -56,10 +53,10 @@ function addCountry(data) {
 <img src='${country.flags.svg}' alt='${
       country.flags.alt
     }' class='flag' width='50'/>
-<h2>${country.name.official}</h2>
+<h2>${country.name.common}</h2>
 </div>
 
-<ul>
+<ul class='list-country'>
 <li>
   <p>
     <span class='parameter'>Capital:</span>
@@ -90,9 +87,14 @@ function addListCountry(data) {
 
     item.innerHTML = `    
     <img src="${country.flags.svg}" alt="${country.flags.alt}" width = '30'>
-    ${country.name.official}  
+    ${country.name.common}  
     `;
     array.push(item);
   }
   countryList.append(...array);
+}
+
+function cleanHTML() {
+  countryList.innerHTML = '';
+  countryInfo.innerHTML = '';
 }
