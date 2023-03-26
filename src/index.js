@@ -50,7 +50,7 @@ function addCountry(data) {
 <img src='${country.flags.svg}' alt='${
       country.flags.alt
     }' class='flag' width='50'/>
-<h2>${country.name.common}</h2>
+<h2>${country.name.official}</h2>
 </div>
 
 <ul class='list-country'>
@@ -84,7 +84,7 @@ function addListCountry(data) {
 
     item.innerHTML = `    
     <img src="${country.flags.svg}" alt="${country.flags.alt}" width = '30'>
-    ${country.name.common}  
+    ${country.name.official}  
     `;
     array.push(item);
   }
